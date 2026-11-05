@@ -55,7 +55,7 @@ abstract class Table
 
     }
 
-    protected static function obtenerRegistros($sqlstr, $params, &$conn = null)
+    protected static function obtenerRegistros($sqlstr, $params = [], &$conn = null)
     {
         $pConn = null;
         if ($conn != null) {
@@ -64,7 +64,7 @@ abstract class Table
             $pConn = self::getConn();
         }
         $query = $pConn->prepare($sqlstr);
-        foreach ($params as $key=>&$value) {
+        foreach ($params as $key => &$value) {
             $query->bindParam(":".$key, $value, self::getBindType($value));
         }
         $query->execute();
@@ -72,7 +72,7 @@ abstract class Table
         return $query->fetchAll();
     }
 
-    protected static function obtenerUnRegistro($sqlstr, $params, &$conn = null)
+    protected static function obtenerUnRegistro($sqlstr, $params = [], &$conn = null)
     {
         $pConn = null;
         if ($conn != null) {
@@ -90,7 +90,7 @@ abstract class Table
         return $query->fetch();
     }
 
-    protected static function executeNonQuery($sqlstr, $params,  &$conn = null)
+    protected static function executeNonQuery($sqlstr, $params = [],  &$conn = null)
     {
         $pConn = null;
         if ($conn != null) {

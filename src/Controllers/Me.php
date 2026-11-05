@@ -6,12 +6,15 @@ use Views\Renderer;
 use Dao\Profile\Me as MeDao;
 use Dao\Misc\Proyectos as ProyectosDao;
 
+
 class Me extends PublicController
 {
     public function run(): void
     {
         $tmpViewData = MeDao::getProfile();
         $tmpViewData["txtNombre"] = "";
+        $tmpProyectos = ProyectosDao::getAll();
+        $tmpViewData["proyectos"] = $tmpProyectos;
         if ($this->isPostBack()) {
             $tmpViewData["txtNombre"] = $_POST["txtNombre"] ?? "";
             $tmpViewData["postMessage"] = $tmpViewData["txtNombre"] ? sprintf(
@@ -24,4 +27,3 @@ class Me extends PublicController
         Renderer::render("me", $tmpViewData);
     }
 }
-    
